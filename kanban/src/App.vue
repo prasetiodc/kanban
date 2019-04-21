@@ -10,12 +10,12 @@
         :headertest="task.name" :list="task.tasks" :variant='task.variant'></CategoryTask>
       </div>
       <!-- MODAL NEW TASK -->
-      <b-modal id="modal-1" title="New Task" :modal="statusModal">
+      <b-modal id="modal-1" title="New Task" :modal="statusModal" ref="modal-1">
         <form >
           <b-container fluid>
             <b-form-group label="Title :" label-for="title"  >
               <b-form-input id="title" v-model="title" required
-              placeholder="Task Title" ></b-form-input>
+              placeholder="Task Title"></b-form-input>
             </b-form-group>
             <b-form-group label="Desription :" label-for="description">
               <b-form-input
@@ -55,6 +55,7 @@ export default {
   },
   data() {
     return {
+      statusModal: false,
       description: '',
       point: '',
       title: '',
@@ -115,9 +116,12 @@ export default {
           status: 'Pre-Log',
         })
         .then((docRef) => {
-          this.modal.hide();
-          console.log('Document written with ID: ', docRef.id);
-        // this.$modal.close()
+          this.description= '';
+          this.point= '';
+          this.title= '';
+          this.assignedTo= '';
+          swal("Add Task Success!", "", "success");
+          this.$refs['modal-1'].hide()
         })
         .catch(({ error }) => {
           console.error('Error adding document: ', error);

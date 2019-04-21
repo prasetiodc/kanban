@@ -4,23 +4,24 @@
         <h6 slot='header' class='mb-0'>{{ detail.title }}</h6>
         <p>point : {{ detail.point }}</p>
         <p>Assigned To : {{ detail.assignedTo }}</p>
+        <p>Description : {{ detail.description }}</p>
         <div v-if="detail.status=='Pre-Log'">
-          <b-button href='' variant='danger' @click='remove' size="sm">Delete</b-button>
+          <b-button href='' variant='danger' @click='remove' size="sm" id="remove">Delete</b-button>
           <b-button href='' variant='primary' @click='todo' size="sm">To-Do</b-button>
         </div>
         <div v-if="detail.status=='To-Do'">
           <b-button href='' variant='primary' @click='prelog' size="sm">Pre-Log</b-button>
-          <b-button href='' variant='danger' @click='remove' size="sm">Delete</b-button>
+          <b-button href='' variant='danger' @click='remove' size="sm" id="remove">Delete</b-button>
           <b-button href='' variant='primary' @click='ongoing' size="sm">On-Going</b-button>
         </div>
         <div v-if="detail.status=='On-Going'">
           <b-button href='' variant='primary' @click='todo' size="sm">To-Do</b-button>
-          <b-button href='' variant='danger' @click='remove' size="sm">Delete</b-button>
+          <b-button href='' variant='danger' @click='remove' size="sm" id="remove">Delete</b-button>
           <b-button href='' variant='primary' @click='finished' size="sm">Finished</b-button>
         </div>
         <div v-if="detail.status=='Finished'">
           <b-button href='' variant='primary' @click='ongoing' size="sm">On-Going</b-button>
-          <b-button href='' variant='danger' @click='remove' size="sm">Delete</b-button>
+          <b-button href='' variant='danger' @click='remove' size="sm" id="remove">Delete</b-button>
         </div>
       </b-card>
     </div>
@@ -39,7 +40,7 @@ export default {
     remove() {
       db.collection('task').doc(this.detail.id).delete()
         .then(() => {
-          console.log('Document successfully deleted!');
+          swal("Delete Task Success!", "", "success");
         })
         .catch((error) => {
           console.error('Error removing document: ', error);
@@ -91,5 +92,8 @@ export default {
 }
 .card{
   margin: 10px 0;
+}
+.btn-danger{
+  margin: 0 5px;
 }
 </style>
